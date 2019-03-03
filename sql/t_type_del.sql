@@ -1,0 +1,13 @@
+INSERT INTO `t_type_del` VALUES (1, '支付宝', 1);
+INSERT INTO `t_type_del` VALUES (2, '微信', 1);
+INSERT INTO `t_type_del` VALUES (3, '现金', 1);
+INSERT INTO `t_type_del` VALUES (4, '美团', 1);
+INSERT INTO `t_type_del` VALUES (5, '食材', 2);
+INSERT INTO `t_type_del` VALUES (6, '调料', 2);
+INSERT INTO `t_type_del` VALUES (7, '米线', 2);
+INSERT INTO `t_type_del` VALUES (8, '杂物', 2);
+INSERT INTO `t_type_del` VALUES (9, '其他', 2);
+INSERT INTO `t_type_del` VALUES (10, '燃料', 2);
+INSERT INTO `t_type_del` VALUES (11, '运输', 2);
+INSERT INTO `t_type_del` VALUES (12, '米油', 2);
+INSERT INTO `t_type_del` VALUES (13, '公摊', 2);
