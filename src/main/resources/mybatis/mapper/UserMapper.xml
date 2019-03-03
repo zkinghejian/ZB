@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.hj.zb.mapper.UserMapper">
+    <select id="getPasswordByUserName" parameterType="string" resultType="string" >
+      select password from t_user where username=#{username}
+    </select>
+
+    <resultMap id="userMap" type="hashmap">
+        <id property="id" column="userid"></id>
+        <result property="username" column="username"></result>
+        <result property="password" column="password"></result>
+    </resultMap>
+    <select id="getTypes" resultMap="typesMap" >
+        select * from t_type
+    </select>
+
+    <resultMap id="typesMap" type="hashmap">
+        <id property="typeno" column="typeno"></id>
+        <result property="typename" column="typename"></result>
+    </resultMap>
+
+    <select id="getUser" resultMap="userMap">
+        select * from t_user
+    </select>
+</mapper>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.hj.zb.mapper.MainMapper">
+
+    <select id="getTypes" resultMap="typesMap" >
+        select t_type.typeno as typesno,t_type.typename as typesname,typeid,t_type_del.typename
+         from t_type
+         join t_type_del
+         on t_type.typeno = t_type_del.typeno
+    </select>
+
+    <resultMap id="typesMap" type="org.hj.zb.pojo.Type">
+        <id property="typeno" column="typesno"></id>
+        <result property="typename" column="typesname"></result>
+        <collection property="types" column="typeno" ofType="org.hj.zb.pojo.Types" >
+            <id column="typeid" property="typeid"></id>
+            <result column="typename" property="typename"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getShopnames" resultMap="shopnames">
+         select * from t_shop
+    </select>
+
+    <resultMap id="shopnames" type="hashmap">
+        <id column="id" property="shopid"></id>
+        <result column="shopname" property="shopname"></result>
+    </resultMap>
+
+    <insert id="addDetails" parameterType="list" >
+            insert into t_detail
+            (shopid,typeid,money,ctime,remark,typeno)
+            values
+            <foreach collection="list" item="item"  index="index" separator="," >
+                (
+                #{item.shopid},
+                #{item.typeid},
+                #{item.money},
+                #{item.ctime},
+                #{item.remark},
+                #{item.typeno}
+                )
+            </foreach>
+    </insert>
+
+    <select id="getDetailsByDate" resultMap="details" parameterType="string">
+        select t_detail.*,t_shop.shopname, t_type.typename  as tname,t_type_del.typename from t_detail
+        JOIN t_shop
+        on t_detail.shopid=t_shop.id
+        JOIN t_type
+        on t_detail.typeno = t_type.typeno
+        JOIN t_type_del
+        on t_detail.typeid = t_type_del.typeid
+        where t_detail.ctime=#{date}
+    </select>
+
+    <resultMap id="details" type="hashmap">
+        <id property="id" column="id"></id>
+        <result property="shopid" column="shopid"></result>
+        <result property="typeid" column="typeid"></result>
+        <result property="money" column="money"></result>
+        <result property="ctime" column="ctime"></result>
+        <result property="remark" column="remark"></result>
+        <result property="typeno" column="typeno"></result>
+        <result property="shopname" column="shopname"></result>
+        <result property="tname" column="tname"></result>
+        <result property="typename" column="typename"></result>
+    </resultMap>
+
+    <delete id="delDetailById" parameterType="int">
+        delete from t_detail where id=#{id}
+    </delete>
+
+    <select id="getCosTypes" resultMap="costypes">
+        select * from t_cosgrptype
+    </select>
+    <resultMap id="costypes" type="hashmap">
+        <id property="csid" column="cosid"></id>
+        <result property="costypename" column="costypename"></result>
+    </resultMap>
+
+    <insert id="addCoss" parameterType="list" >
+        insert into t_cos
+        (csid,ctime,stime,num,shopid,sum)
+        values
+        <foreach collection="list" item="item"  index="index" separator="," >
+            (
+            #{item.csid},
+            #{item.ctime},
+            #{item.stime},
+            #{item.num},
+            #{item.shopid},
+            #{item.sum}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="delCosById" parameterType="int">
+        delete from t_cos where id=#{id}
+    </delete>
+
+    <select id="getCossByDate" resultMap="coss" parameterType="string">
+        select t_cos.*,t_shop.shopname,t_cosgrptype.costypename from t_cos
+        JOIN t_shop
+        on t_cos.shopid=t_shop.id
+        JOIN t_cosgrptype
+        on t_cos.csid = t_cosgrptype.cosid
+        where t_cos.ctime=#{date}
+    </select>
+
+    <resultMap id="coss" type="hashmap">
+        <id property="id" column="id"></id>
+        <result property="csid" column="csid"></result>
+        <result property="ctime" column="ctime"></result>
+        <result property="stime" column="stime"></result>
+        <result property="num" column="num"></result>
+        <result property="shopname" column="shopname"></result>
+        <result property="shopid" column="shopid"></result>
+        <result property="costypename" column="costypename"></result>
+        <result property="sum" column="sum"></result>
+    </resultMap>
+</mapper>
